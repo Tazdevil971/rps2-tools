@@ -1,0 +1,9 @@
+repos/*
+!repos/.gitkeep
+
+prefix/*
+!prefix/.gitkeep
+
+**/*.o
+**/*.a
+**/*.elf
