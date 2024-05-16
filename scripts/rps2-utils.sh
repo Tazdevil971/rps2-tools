@@ -59,7 +59,7 @@ llvm_configure () {
 # Build and install LLVM
 llvm_build () {
     cmake --build $LLVM_SRC/build
-    cmake --build $LLVM_SRC/build --target install
+    cmake --build $LLVM_SRC/build --target install > /dev/null
 }
 
 # Run regression test suite

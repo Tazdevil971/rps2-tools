@@ -13,4 +13,5 @@ mkdir $PREFIX/bin 2> /dev/null || true
 
 # Download the binary from github
 (cd $PREFIX/bin
-    wget $PCSX2_URL)
+    wget $PCSX2_URL
+    chmod +x $PCSX2_EXE)
