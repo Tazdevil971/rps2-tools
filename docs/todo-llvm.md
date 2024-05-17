@@ -6,8 +6,6 @@ Documentation on what is required to be implemented on LLVM in order for this to
   - Disable `ll`/`sc`
   - Disable 64-bit `mul`/`div`
   - Disable hard-float (for now keep it soft-float)
-  - Disable all instructions with different encodings
-    - `mult`/`multu`
   - Add `lq`/`sq` (quadword accesses are required due to some wacko peripheral registers)
   - Add `di`/`ei` (of course they add to add their own way of enabling/disabling interrupts)
   
@@ -16,8 +14,6 @@ Documentation on what is required to be implemented on LLVM in order for this to
 
 - Finishing up support
   - Add backported MIPS4 instructions (`pref`/`movn`/`movz`)
-  - Re-add instructions with different encodings
-    - `mult`/`multu`
   - Add extra mul/div instructions and registers
   - Add remaining EE Core instructions
   - Add MMI
