@@ -2,6 +2,8 @@
 ## Overview
 This repo contains tooling/examples/tests for the RPS2 Project (Rust for PlayStation 2).
 
+Most of the work is actually being done in the [llvm-project fork](https://github.com/Tazdevil971/llvm-project-r5900/tree/dev-r5900)
+
 ## Paths
 - `docs`: Contains project documentation.
 - `repos`: Folder containing all sub-repos.
