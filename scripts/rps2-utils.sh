@@ -1,54 +1,54 @@
 #!/bin/bash -e
 # Various functions to be used in the repo
-ROOT="${ROOT:-$PWD}"
+export RPS2_ROOT="${RPS2_ROOT:-$PWD}"
 
-PREFIX=$ROOT/prefix
-LLVM_SRC=$ROOT/repos/llvm
+export RPS2_PREFIX=$RPS2_ROOT/prefix
+export RPS2_LLVM_SRC=$RPS2_ROOT/repos/llvm
 
-PCSX2_VERSION=$(cat $ROOT/scripts/pcsx2.version)
-PCSX2_EXE="pcsx2-$PCSX2_VERSION-linux-appimage-x64-Qt.AppImage"
+export PCSX2_VERSION=$(cat $RPS2_ROOT/scripts/pcsx2.version)
+export PCSX2_EXE="pcsx2-$PCSX2_VERSION-linux-appimage-x64-Qt.AppImage"
 
-NPROC="${NPROC:-$(nproc)}"
+RPS2_NPROC="${RPS2_NPROC:-$(nproc)}"
 
 # Setup the RPS2 environment
 rps2_enter () {
-    OLD_PATH=$PATH
+    RPS2_OLD_PATH=$PATH
 
-    PATH="$PREFIX/bin:$PATH"
+    PATH="$RPS2_PREFIX/bin:$PATH"
 }
 
 rps2_exit () {
-    PATH=$OLD_PATH
+    PATH=$RPS2_OLD_PATH
 }
 
 rps2_run () {
     local elf=$1
     # Canonicalize the path, as PCSX2 is a bit stupid
-    $PREFIX/bin/$PCSX2_EXE -batch -- $(realpath $elf)
+    $RPS2_PREFIX/bin/$PCSX2_EXE -batch -- $(realpath $elf)
 }
 
 rps2_run_dbg () {
     local elf=$1
     # Canonicalize the path, as PCSX2 is a bit stupid
-    $PREFIX/bin/$PCSX2_EXE -batch -debugger -- $(realpath $elf)
+    $RPS2_PREFIX/bin/$PCSX2_EXE -batch -debugger -- $(realpath $elf)
 }
 
 # Utilities to work with the LLVM repo
 
 # Re-configure LLVM
 llvm_configure () {
-    (cd $LLVM_SRC/llvm
+    (cd $RPS2_LLVM_SRC/llvm
         cmake \
-            -B$LLVM_SRC/build \
+            -B$RPS2_LLVM_SRC/build \
             -GNinja \
-            -DCMAKE_INSTALL_PREFIX=$PREFIX \
+            -DCMAKE_INSTALL_PREFIX=$RPS2_PREFIX \
             -DCMAKE_C_COMPILER=clang \
             -DCMAKE_CXX_COMPILER=clang++ \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_USE_LINKER=lld \
             -DLLVM_ENABLE_ASSERTIONS=On \
-            -DLLVM_PARALLEL_COMPILE_JOBS=$NPROC \
-            -DLLVM_PARALLEL_TABLEGEN_JOBS=$NPROC \
+            -DLLVM_PARALLEL_COMPILE_JOBS=$RPS2_NPROC \
+            -DLLVM_PARALLEL_TABLEGEN_JOBS=$RPS2_NPROC \
             -DLLVM_PARALLEL_LINK_JOBS=1 \
             -DLLVM_ENABLE_PROJECTS="mlir;clang;llvm" \
             -DLLVM_TARGETS_TO_BUILD="X86;Mips" \
@@ -58,16 +58,16 @@ llvm_configure () {
 
 # Build and install LLVM
 llvm_build () {
-    cmake --build $LLVM_SRC/build
-    cmake --build $LLVM_SRC/build --target install > /dev/null
+    cmake --build $RPS2_LLVM_SRC/build
+    cmake --build $RPS2_LLVM_SRC/build --target install > /dev/null
 }
 
 # Run regression test suite
 llvm_test () {
-    cmake --build $LLVM_SRC/build --target check-llvm
+    cmake --build $RPS2_LLVM_SRC/build --target check-llvm
 }
 
 # Run LLVM unit tests
 llvm_unit_test () {
-    cmake --build $LLVM_SRC/build --target check-llvm-unit
+    cmake --build $RPS2_LLVM_SRC/build --target check-llvm-unit
 }
