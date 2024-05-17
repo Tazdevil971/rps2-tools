@@ -27,7 +27,8 @@ extern u128* __bss_start;
 extern u128* __bss_end;
 extern u128* __heap_start;
 
-static char BRUH[1024] = {0};
+// Test out .bss clearing logic
+static char RANDOM_BSS[1024] = {0};
 
 int main() {
     /*
