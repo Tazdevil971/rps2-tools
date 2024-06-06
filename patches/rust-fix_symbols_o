@@ -1,0 +1,36 @@
+diff --git a/compiler/rustc_codegen_ssa/src/back/metadata.rs b/compiler/rustc_codegen_ssa/src/back/metadata.rs
+index ab1bc0b6..2014757d 100644
+--- a/compiler/rustc_codegen_ssa/src/back/metadata.rs
++++ b/compiler/rustc_codegen_ssa/src/back/metadata.rs
+@@ -178,6 +178,31 @@ pub(super) fn get_metadata_xcoff<'a>(path: &Path, data: &'a [u8]) -> Result<&'a
+ }
+ 
+ pub(crate) fn create_object_file(sess: &Session) -> Option<write::Object<'static>> {
++
++    // FIXME: Quick hack to make this work on the r5900
++    if sess.target.arch.as_ref() == "mips64" && sess.target.options.cpu.as_ref() == "r5900" {
++        let endianness = match sess.target.options.endian {
++            Endian::Little => Endianness::Little,
++            Endian::Big => Endianness::Big,
++        };
++
++        // Mips is wrong here, we NEED a special exception for Mips64/n32
++        // But this is fine, as the only difference is rel/rela and it doesn't get used
++        let mut file = write::Object::new(BinaryFormat::Elf, Architecture::Mips, endianness);
++
++        let mut e_flags = elf::EF_MIPS_CPIC | elf::EF_MIPS_ABI2 | elf::EF_MIPS_ARCH_3;
++        if sess.target.options.relocation_model != RelocModel::Static {
++            e_flags |= elf::EF_MIPS_PIC;
++        }
++
++        let os_abi = elf::ELFOSABI_NONE;
++        let abi_version = 0;
++    
++        file.flags = FileFlags::Elf { os_abi, abi_version, e_flags };
++        return Some(file);
++    }
++
++
+     let endianness = match sess.target.options.endian {
+         Endian::Little => Endianness::Little,
+         Endian::Big => Endianness::Big,

@@ -24,3 +24,6 @@ Once everything is set up, you can use the following commands from anywhere in t
 - `llvm_configure`: Will run cmake to configure LLVM.
 - `llvm_build`: Will build and install the custom LLVM toolchain to the prefix.
 - `llvm_test`/`llvm_unit_test`: Will run the LLVM regression tests and unit testst.
+- `rust_configure`: Will run configure on the rust repo.
+- `rust_patch`: Apply small patches to get rust working.
+- `rust_build`: Build and install the patched rust toolchain

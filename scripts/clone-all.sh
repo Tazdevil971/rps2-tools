@@ -11,6 +11,8 @@ BINUTILS_URL="https://github.com/ps2dev/binutils-gdb.git"
 BINUTILS_HASH="a2f80906bcb5cbc0d89c2e31f38ab122fd127132"
 GCC_URL="https://github.com/ps2dev/gcc.git"
 GCC_HASH="98394900186c29807e6e4de91aaf3b429a0a81f2"
+RUST_URL="https://github.com/rust-lang/rust.git"
+RUST_HASH="9b00956e56009bab2aa15d7bff10916599e3d6d6"
 
 # Utility to speedily clone large repos 
 fast_clone () {
@@ -26,7 +28,10 @@ fast_clone () {
         git checkout --quiet $hash)
 }
 
+# Do a shallow fast clone for repose we don't need to actively work on
 fast_clone $ROOT/repos/gcc $GCC_URL $GCC_HASH
 fast_clone $ROOT/repos/binutils $BINUTILS_URL $BINUTILS_HASH
+fast_clone $ROOT/repos/rust $RUST_URL $RUST_HASH
 
+# Do a normal clone for repos with actual meaningful history
 git clone -b $LLVM_BRANCH $LLVM_URL $ROOT/repos/llvm

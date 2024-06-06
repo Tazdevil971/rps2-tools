@@ -4,6 +4,7 @@ export RPS2_ROOT="${RPS2_ROOT:-$PWD}"
 
 export RPS2_PREFIX=$RPS2_ROOT/prefix
 export RPS2_LLVM_SRC=$RPS2_ROOT/repos/llvm
+export RPS2_RUST_SRC=$RPS2_ROOT/repos/rust
 
 export PCSX2_VERSION=$(cat $RPS2_ROOT/scripts/pcsx2.version)
 export PCSX2_EXE="pcsx2-$PCSX2_VERSION-linux-appimage-x64-Qt.AppImage"
@@ -50,7 +51,7 @@ llvm_configure () {
             -DLLVM_PARALLEL_COMPILE_JOBS=$RPS2_NPROC \
             -DLLVM_PARALLEL_TABLEGEN_JOBS=$RPS2_NPROC \
             -DLLVM_PARALLEL_LINK_JOBS=1 \
-            -DLLVM_ENABLE_PROJECTS="mlir;clang;llvm" \
+            -DLLVM_ENABLE_PROJECTS="mlir;clang;lld;llvm" \
             -DLLVM_TARGETS_TO_BUILD="X86;Mips" \
             -DLLVM_CCACHE_BUILD=On \
             -DLLVM_OPTIMIZED_TABLEGEN=On)
@@ -70,4 +71,33 @@ llvm_test () {
 # Run LLVM unit tests
 llvm_unit_test () {
     cmake --build $RPS2_LLVM_SRC/build --target check-llvm-unit
+}
+
+# Re-configure rust
+rust_configure () {
+    (cd $RPS2_RUST_SRC
+        rm config.toml 2> /dev/null || true
+        ./configure \
+            --enable-ccache \
+            --llvm-root=$RPS2_LLVM_SRC/build \
+            --codegen-backends=llvm \
+            --enable-lld \
+            --prefix=$RPS2_PREFIX \
+            --sysconfdir=etc \
+            --bindir=bin \
+            --libdir=lib)
+}
+
+# Apply patches to rust
+rust_patch () {
+    (cd $RPS2_RUST_SRC
+        git apply $RPS2_ROOT/patches/rust-*)
+}
+
+# Build and install custom rust toolchain
+rust_build () {
+    (cd $RPS2_RUST_SRC
+        ./x.py build --stage 1 library
+        rustup toolchain link rps2-stage1 \
+            $RPS2_RUST_SRC/build/host/stage1)
 }
