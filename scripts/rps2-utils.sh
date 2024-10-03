@@ -73,8 +73,31 @@ llvm_unit_test () {
     cmake --build $RPS2_LLVM_SRC/build --target check-llvm-unit
 }
 
+# Apply patches to rust
+rust_patch () {
+    (cd $RPS2_RUST_SRC
+        git apply $RPS2_ROOT/patches/rust-*)
+}
+
 # Re-configure rust
 rust_configure () {
+    (cd $RPS2_RUST_SRC
+        rm config.toml 2> /dev/null || true
+        ./configure \
+            --enable-ccache \
+            --llvm-root=$RPS2_LLVM_SRC/build \
+            --codegen-backends=llvm \
+            --enable-lld \
+            --prefix=$RPS2_PREFIX \
+            --sysconfdir=etc \
+            --bindir=bin \
+            --libdir=lib \
+            --tools=rustfmt,rustdoc,clippy,rust-analyzer-proc-macro-srv \
+            --enable-extended)
+}
+
+# Re-configure rust with minimal settings
+rust_configure_minimal () {
     (cd $RPS2_RUST_SRC
         rm config.toml 2> /dev/null || true
         ./configure \
@@ -88,40 +111,18 @@ rust_configure () {
             --libdir=lib)
 }
 
-# Re-configure rust with extended tools
-rust_configure_extended () {
-    (cd $RPS2_RUST_SRC
-        rm config.toml 2> /dev/null || true
-        ./configure \
-            --enable-ccache \
-            --llvm-root=$RPS2_LLVM_SRC/build \
-            --codegen-backends=llvm \
-            --enable-lld \
-            --prefix=$RPS2_PREFIX \
-            --sysconfdir=etc \
-            --bindir=bin \
-            --libdir=lib \
-            --tools=rustfmt,rustdoc,clippy \
-            --enable-extended)
-}
-
-# Apply patches to rust
-rust_patch () {
-    (cd $RPS2_RUST_SRC
-        git apply $RPS2_ROOT/patches/rust-*)
-}
-
 # Build and install custom rust toolchain
 rust_build () {
     (cd $RPS2_RUST_SRC
-        ./x.py build --stage 1 library
-        rustup toolchain link rps2-stage1 \
-            $RPS2_RUST_SRC/build/host/stage1)
+        ./x.py build library rustfmt rustdoc clippy proc-macro-srv-cli
+        rustup toolchain link rps2-full \
+            $RPS2_RUST_SRC/build/host/stage2)
 }
 
-rust_build_extended () {
+# Build and install custom rust toolchain with minimal settings
+rust_build_minimal () {
     (cd $RPS2_RUST_SRC
-        ./x.py build --stage 1 library rustfmt rustdoc clippy
+        ./x.py build --stage 1 library
         rustup toolchain link rps2-stage1 \
             $RPS2_RUST_SRC/build/host/stage1)
 }
