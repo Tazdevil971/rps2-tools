@@ -36,3 +36,4 @@ void *InitHeap(void *heap, i32 heap_size);
 void FlushCache(i32 operation);
 u64 GsGetIMR(void);
 u64 GsPutIMR(u64 imr);
+int Deci2Call(int call, u32 *args);

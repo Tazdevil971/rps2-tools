@@ -1,8 +1,10 @@
-# CC := mips64r5900el-ps2-elf-gcc
-# LD := mips64r5900el-ps2-elf-ld
-CC := clang --target=mips64el-ps2-elf
-LD := ld.lld
-CFLAGS := -O0 -g
+CC := mips64r5900el-ps2-elf-gcc
+LD := mips64r5900el-ps2-elf-ld
+# CC := clang --target=mips64el-ps2-elf
+# LD := ld.lld
+
+CFLAGS := -O2 -g
+# CFLAGS := -g
 
 OBJDUMP := mips64r5900el-ps2-elf-objdump
 
@@ -28,4 +30,4 @@ run: $(EXE)
 
 .PHONY: dump
 dump: $(EXE)
-	$(OBJDUMP) -x -d $(EXE)
+	$(OBJDUMP) -x -d -S $(EXE)

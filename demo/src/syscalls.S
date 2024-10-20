@@ -16,3 +16,4 @@ define_syscall InitHeap, 0x3d;
 define_syscall FlushCache, 0x64;
 define_syscall GsGetIMR, 0x70;
 define_syscall GsPutIMR, 0x71;
+define_syscall Deci2Call, 0x7c;

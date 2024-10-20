@@ -30,6 +30,10 @@ extern u128* __heap_start;
 // Test out .bss clearing logic
 static char RANDOM_BSS[1024] = {0};
 
+void root_func() {
+    ExitThread();
+}
+
 int main() {
     /*
     Simple program to flash the screen with different colors
@@ -47,10 +51,6 @@ int main() {
     - Configures PCRTC to bypass GS output and only output a solid color
     - Writes to the PCRTC configuration to display different colors
     */
-
-    // Step 1: Clear .bss
-    for(u128 *it = __bss_start; it != __bss_end; it++)
-        *it = 0;
 
     // Step 2: Set up heap
     InitHeap(__heap_start, -1);
@@ -83,6 +83,13 @@ int main() {
         u32 b = slope(h);
 
         *GS_BGCOLOR = r | (g << 8) | (b << 16);
+
+        const char *str = "Hello world!\n\0";
+
+        if(i % 100000 == 0) {
+            u32 arg = (u32)str;
+            Deci2Call(0x10, &arg);
+        }
     }
 
     return 0;
