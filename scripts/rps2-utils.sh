@@ -115,8 +115,10 @@ rust_configure_minimal () {
 rust_build () {
     (cd $RPS2_RUST_SRC
         ./x.py build library rustfmt rustdoc clippy proc-macro-srv-cli
-        rustup toolchain link rps2-full \
-            $RPS2_RUST_SRC/build/host/stage2)
+        rustup toolchain link rps2-stage2 \
+            $RPS2_RUST_SRC/build/host/stage2
+        rustup toolchain link rps2-stage1 \
+            $RPS2_RUST_SRC/build/host/stage1)
 }
 
 # Build and install custom rust toolchain with minimal settings
