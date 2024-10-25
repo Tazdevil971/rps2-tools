@@ -193,12 +193,12 @@ It also includes instructions that _should_ be supported by the R5900, but aren'
 |`add.s`     |MIPS1/COP1  |✅|
 |`c.eq.s`    |MIPS1/COP1  |✅|
 |`c.f.s`     |MIPS1/COP1  |✅|
-|`c.le.s`    |MIPS1/COP1  |✅|Has different encoding, just, why?
-|`c.lt.s`    |MIPS1/COP1  |✅|Has different encoding, just, why?
+|`c.le.s`    |MIPS1/COP1  |✅|Actually is encoded as `c.ole.s`, but it doesn't make any difference (no NaN support)
+|`c.lt.s`    |MIPS1/COP1  |✅|Actually is encoded as `c.olt.s`, but it doesn't make any difference (no NaN support)
 |`cfc1`      |MIPS1/COP1  |✅|
 |`ctc1`      |MIPS1/COP1  |✅|
 |`cvt.s.w`   |MIPS1/COP1  |✅|
-|`cvt.w.s`   |MIPS1/COP1  |✅|Actually behaves like trunc.w.s, rounding down the number
+|`cvt.w.s`   |MIPS1/COP1  |✅|Actually behaves like `trunc.w.s`, rounding down the number
 |`div.s`     |MIPS1/COP1  |✅|
 |`lwc1`      |MIPS1/COP1  |✅|
 |`mfc1`      |MIPS1/COP1  |✅|
@@ -236,6 +236,8 @@ It also includes instructions that _should_ be supported by the R5900, but aren'
 |`c.nge.s`   |MIPS1/COP1  |❌|
 |`c.ngt.s`   |MIPS1/COP1  |❌|
 |`ceil.w.s`  |MIPS2/COP1  |❌|
+|`floor.w.s` |MIPS2/COP1  |❔|The EE manual doesn't mention it, but GCC does supports it, assume it not supported
+|`round.w.s` |MIPS2/COP1  |❔|The EE manual doesn't mention it, but GCC does supports it, assume it not supported
 |`trunc.w.s` |MIPS2/COP1  |❌|
 |`abs.d`     |MIPS1/COP1  |❌|COP1 is single precision
 |`add.d`     |MIPS1/COP1  |❌|COP1 is single precision
