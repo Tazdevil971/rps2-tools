@@ -1,0 +1,17 @@
+diff --git a/compiler/rustc_target/src/target_features.rs b/compiler/rustc_target/src/target_features.rs
+index 88536926b..bb568b91c 100644
+--- a/compiler/rustc_target/src/target_features.rs
++++ b/compiler/rustc_target/src/target_features.rs
+@@ -416,9 +416,11 @@ pub fn is_supported(self) -> bool {
+ 
+ const MIPS_FEATURES: &[(&str, Stability, ImpliedFeatures)] = &[
+     // tidy-alphabetical-start
+-    ("fp64", Unstable(sym::mips_target_feature), &[]),
++    ("fp64", Forbidden { reason: "unsound because it changes float ABI" }, &[]),
+     ("msa", Unstable(sym::mips_target_feature), &[]),
+     ("virt", Unstable(sym::mips_target_feature), &[]),
++    ("single-float", Forbidden { reason: "unsound because it changes float ABI" }, &[]),
++    ("soft-float", Forbidden { reason: "unsound because it changes float ABI" }, &[]),
+     // tidy-alphabetical-end
+ ];
+ 

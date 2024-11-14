@@ -12,7 +12,7 @@ BINUTILS_HASH="a2f80906bcb5cbc0d89c2e31f38ab122fd127132"
 GCC_URL="https://github.com/ps2dev/gcc.git"
 GCC_HASH="98394900186c29807e6e4de91aaf3b429a0a81f2"
 RUST_URL="https://github.com/rust-lang/rust.git"
-RUST_HASH="8ed95d1d9e149b5242316c91b3849c58f8320470"
+RUST_HASH="dae7ac133b9eda152784c075facb31a6688c92b1"
 DSNET_URL="https://github.com/ps2dbg/dsnet.git"
 DSNET_HASH="5b268fe38a3d6c41b225ff5acb7e86e855c4e7e0"
 
