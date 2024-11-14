@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 # Various functions to be used in the repo
 export RPS2_ROOT="${RPS2_ROOT:-$PWD}"
 
@@ -10,6 +10,7 @@ export PCSX2_VERSION=$(cat $RPS2_ROOT/scripts/pcsx2.version)
 export PCSX2_EXE="pcsx2-$PCSX2_VERSION-linux-appimage-x64-Qt.AppImage"
 
 RPS2_NPROC="${RPS2_NPROC:-$(nproc)}"
+PYTHON="/bin/python3"
 
 # Setup the RPS2 environment
 rps2_enter () {
@@ -71,6 +72,12 @@ llvm_test () {
 # Run LLVM unit tests
 llvm_unit_test () {
     cmake --build $RPS2_LLVM_SRC/build --target check-llvm-unit
+}
+
+# Run a specific LLVM lit test
+llvm_run_lit_test () {
+    local path=$1
+    $PYTHON $RPS2_LLVM_SRC/build/bin/llvm-lit -v $path
 }
 
 # Apply patches to rust
