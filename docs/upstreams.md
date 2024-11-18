@@ -12,6 +12,11 @@ Status: todo
 
 Depends: object/743
 
+### llvm-project/116569 [MIPS] Updated MIPS N calling conventions so that fp16 arguments no longer cause a crash 
+Status: open
+
+[Link](https://github.com/llvm/llvm-project/pull/116569)
+
 ### llvm-project/XXX Fix single-float in Mips backend
 Status: todo
 
@@ -22,7 +27,7 @@ Status: merged
 [Link](https://github.com/gimli-rs/gimli/pull/749)
 
 ### object/743 Add Mips64 N32 ABI
-Status: open
+Status: merged
 
 [Link](https://github.com/gimli-rs/object/pull/743)
 
