@@ -1,0 +1,13 @@
+diff --git a/compiler/rustc_target/src/target_features.rs b/compiler/rustc_target/src/target_features.rs
+index 88536926b..73aba9e2e 100644
+--- a/compiler/rustc_target/src/target_features.rs
++++ b/compiler/rustc_target/src/target_features.rs
+@@ -419,6 +419,8 @@ pub fn is_supported(self) -> bool {
+     ("fp64", Unstable(sym::mips_target_feature), &[]),
+     ("msa", Unstable(sym::mips_target_feature), &[]),
+     ("virt", Unstable(sym::mips_target_feature), &[]),
++    ("single-float", Unstable(sym::mips_target_feature), &[]),
++    ("soft-float", Unstable(sym::mips_target_feature), &[]),
+     // tidy-alphabetical-end
+ ];
+ 
