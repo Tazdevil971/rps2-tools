@@ -46,6 +46,8 @@ llvm_configure () {
             -DCMAKE_INSTALL_PREFIX=$RPS2_PREFIX \
             -DCMAKE_C_COMPILER=clang \
             -DCMAKE_CXX_COMPILER=clang++ \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_USE_LINKER=lld \
             -DLLVM_ENABLE_ASSERTIONS=On \
@@ -54,7 +56,6 @@ llvm_configure () {
             -DLLVM_PARALLEL_LINK_JOBS=1 \
             -DLLVM_ENABLE_PROJECTS="mlir;clang;lld;llvm" \
             -DLLVM_TARGETS_TO_BUILD="X86;Mips" \
-            -DLLVM_CCACHE_BUILD=On \
             -DLLVM_OPTIMIZED_TABLEGEN=On)
 }
 
