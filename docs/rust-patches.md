@@ -14,5 +14,3 @@ This patch is extra painful because there is no easy way to properly fix this, h
 
 ## rust-add_extra_mips_features
 Adds extra features to rust `cfg`. This allows code to detect soft-float and single-float mips configurations.
-
-This was enabled by [rust/129884](https://github.com/rust-lang/rust/pull/129884), which allows for ABI breaking features to be correctly detected, but not enabled.

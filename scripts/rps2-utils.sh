@@ -119,6 +119,11 @@ rust_configure_minimal () {
             --libdir=lib)
 }
 
+rust_clean () {
+    (cd $RPS2_RUST_SRC
+        ./x.py clean)
+}
+
 # Build and install custom rust toolchain
 rust_build () {
     (cd $RPS2_RUST_SRC
@@ -135,4 +140,14 @@ rust_build_minimal () {
         ./x.py build --stage 1 library
         rustup toolchain link rps2-stage1 \
             $RPS2_RUST_SRC/build/host/stage1)
+}
+
+rust_rebuild () {
+    rust_clean
+    rust_build
+}
+
+rust_rebuild_minimal () {
+    rust_clean
+    rust_build_minimal
 }

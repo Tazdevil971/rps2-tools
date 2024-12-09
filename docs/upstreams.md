@@ -13,7 +13,7 @@ Status: todo
 Depends: object/743
 
 ### llvm-project/116569 [MIPS] Updated MIPS N calling conventions so that fp16 arguments no longer cause a crash 
-Status: open
+Status: merged
 
 [Link](https://github.com/llvm/llvm-project/pull/116569)
 
