@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # Utility to build and install dsnet
-ROOT="${ROOT:-$PWD}"
+ROOT="${RPS2_ROOT:-$PWD}"
 
 PREFIX=$ROOT/prefix
 DSNET_SRC=$ROOT/repos/dsnet

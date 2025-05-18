@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # Utility to download and install PCSX2
-ROOT="${ROOT:-$PWD}"
+ROOT="${RPS2_ROOT:-$PWD}"
 
 PREFIX=$ROOT/prefix
 

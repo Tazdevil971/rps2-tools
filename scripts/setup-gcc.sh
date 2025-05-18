@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # Utility to configure and build binutils/gcc
-ROOT="${ROOT:-$PWD}"
+ROOT="${RPS2_ROOT:-$PWD}"
 
 PREFIX=$ROOT/prefix
 GCC_SRC=$ROOT/repos/gcc

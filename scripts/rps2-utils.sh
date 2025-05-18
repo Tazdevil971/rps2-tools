@@ -81,21 +81,16 @@ llvm_run_lit_test () {
     $PYTHON $RPS2_LLVM_SRC/build/bin/llvm-lit -v $path
 }
 
-# Apply patches to rust
-rust_patch () {
-    (cd $RPS2_RUST_SRC
-        git apply $RPS2_ROOT/patches/rust-*)
-}
-
 # Re-configure rust
 rust_configure () {
     (cd $RPS2_RUST_SRC
-        rm config.toml 2> /dev/null || true
+        rm bootstrap.toml 2> /dev/null || true
+        # --enable-lld got broken, due to rust#139853 :(
         ./configure \
             --enable-ccache \
             --llvm-root=$RPS2_LLVM_SRC/build \
             --codegen-backends=llvm \
-            --enable-lld \
+            --disable-lld \
             --prefix=$RPS2_PREFIX \
             --sysconfdir=etc \
             --bindir=bin \
@@ -107,12 +102,13 @@ rust_configure () {
 # Re-configure rust with minimal settings
 rust_configure_minimal () {
     (cd $RPS2_RUST_SRC
-        rm config.toml 2> /dev/null || true
+        rm bootstrap.toml 2> /dev/null || true
+        # --enable-lld got broken, due to rust#139853 :(
         ./configure \
             --enable-ccache \
             --llvm-root=$RPS2_LLVM_SRC/build \
             --codegen-backends=llvm \
-            --enable-lld \
+            --disable-lld \
             --prefix=$RPS2_PREFIX \
             --sysconfdir=etc \
             --bindir=bin \
